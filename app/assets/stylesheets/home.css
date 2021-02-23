@@ -1,3 +1,11 @@
+li {
+  list-style-type: none;
+}
+
+ul {
+  padding-inline-start: 0px;;
+}
+
 .header {
   position: -webkit-sticky;
   position: sticky;
@@ -32,24 +40,48 @@
   padding-inline-start: 0;
 }
 
-.flights-grid  > li {
-  list-style-type: none;
+.grid-title {
+  grid-column: 2 / 12;
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+  padding: 4px 0px 10px;
 }
 
-.grid-header {
+.grid-headers {
   grid-column: 2 / 12;
-  font-size: large;
-  text-align: center;
-  padding: 4px;
+  display: grid;
+  justify-items: center;
+  font-size: 18px;
+  text-transform: uppercase;
+  grid-template-columns: repeat(4, 1fr);
+  margin-bottom: 10px;
 }
 
 .flight {
-  grid-column: 2 / 10;
+  grid-column: 2 / 12;
   padding: 4px;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.button-container {
+  margin: 8px;
 }
 
 .book-button {
- grid-column: 11 / 12;
- padding: 4px;
- margin: 2px;
+  padding: 7px 12px;
+  border: 1px solid black;
+  border-radius: 4px;
+  background: snow;
+  text-decoration: none;
+  font-weight: 300;
+  text-align: center;
+  color: black;
+}
+
+.book-button:hover {
+  background: lightgrey;
 }

@@ -1,7 +1,3 @@
-<%
-flights = %w(one two three)
-%>
-
 <div class="header">
   <h1 class="page-title">Welcome to Ainsworth Airlines!</h1>
 </div>
@@ -9,9 +5,19 @@ flights = %w(one two three)
   <p>You will love travelling with us.</p>
   <div class="flights-grid-container">
     <ul class="flights-grid">
-      <li class="grid-header">Available Flights:</li>
-      <% flights.each do |flight| %>
-        <li class="flight"><%= flight %></li><button class="book-button">Book!</button>
+      <li class="grid-title">Available Flights</li>
+      <ul class="grid-headers">
+        <li>Leaving From</li>
+        <li>Going To</li>
+        <li>Cost</li>
+      </ul>
+      <% @flights.each do |flight| %>
+        <ul class="flight">
+          <li><%= flight[:departure] %></li>
+          <li><%= flight[:destination] %></li>
+          <li><%= flight[:cost] %></li>
+          <li class="button-container"><%= link_to "Book This One!", new_booking_path((flight[:cost] * 100).to_i), class: "book-button" %></li>
+        </ul>
       <% end %>
     </ul>
   </div>
