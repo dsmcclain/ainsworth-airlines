@@ -1,0 +1,55 @@
+.header {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  height: 100px;
+  display: flex;
+  background:snow;
+  z-index: 100;
+  box-shadow: 0 8px 6px -6px black;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  text-transform: uppercase;
+}
+
+.page-title {
+  font-size: 40px;
+  letter-spacing: 4px;
+}
+
+.home-container {
+  background-color: lightskyblue;
+  padding: 20px;
+  height: calc(100vh - 100px);
+}
+
+.flights-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 1fr;
+  margin: 6vh 0 6vh 0;
+  padding-inline-start: 0;
+}
+
+.flights-grid  > li {
+  list-style-type: none;
+}
+
+.grid-header {
+  grid-column: 2 / 12;
+  font-size: large;
+  text-align: center;
+  padding: 4px;
+}
+
+.flight {
+  grid-column: 2 / 10;
+  padding: 4px;
+}
+
+.book-button {
+ grid-column: 11 / 12;
+ padding: 4px;
+ margin: 2px;
+}

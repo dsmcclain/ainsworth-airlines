@@ -1,1 +1,18 @@
-<p>Hello world!</p>
+<%
+flights = %w(one two three)
+%>
+
+<div class="header">
+  <h1 class="page-title">Welcome to Ainsworth Airlines!</h1>
+</div>
+<div class="home-container">
+  <p>You will love travelling with us.</p>
+  <div class="flights-grid-container">
+    <ul class="flights-grid">
+      <li class="grid-header">Available Flights:</li>
+      <% flights.each do |flight| %>
+        <li class="flight"><%= flight %></li><button class="book-button">Book!</button>
+      <% end %>
+    </ul>
+  </div>
+</div>
