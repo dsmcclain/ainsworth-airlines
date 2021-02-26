@@ -1,3 +1,26 @@
+<head>
+  <script src="https://core.spreedly.com/iframe/express-2.min.js"></script>
+  <script type="text/javascript">
+
+    function callSpreedly(cost) {
+      SpreedlyExpress.init('3C7NRMKIvw2hUvkgic6P5AP0UsH', {
+        "amount": cost,
+        "company_name": "Ainsworth Airlines"
+      });
+      SpreedlyExpress.openView();
+    }
+
+    SpreedlyExpress.onPaymentMethod(function(token, paymentMethod) {
+      var tokenField = document.getElementById("payment_method_token");
+
+      tokenField.setAttribute("value", token);
+
+      var masterForm = document.getElementById('express-form');
+      masterForm.submit();
+    });
+  </script>
+</head>
+
 <div class="header">
   <h1 class="page-title">Welcome to Ainsworth Airlines!</h1>
 </div>
@@ -16,9 +39,21 @@
           <li><%= flight[:departure] %></li>
           <li><%= flight[:destination] %></li>
           <li><%= flight[:cost] %></li>
-          <li class="button-container"><%= link_to "Book This One!", new_booking_path((flight[:cost] * 100).to_i), class: "book-button" %></li>
+          <li class="button-container">
+            <form action="/purchase" method="post" id="express-form">
+              <input type="hidden" name="authenticity_token" value="form_authenticity_token">
+              <input type="hidden" name="payment_method_token" id="payment_method_token">
+              <input type="hidden" name="amount" value="<%= flight[:cost] %>">
+              <input type="button" class="btn highlight" value="Book Now!" onclick="callSpreedly(<%= flight[:cost] %>)">
+            </form>
+            <%= link_to "Add to Cart", cart_path(flight: flight), method: :post, class: "btn" %>
+          </li>
         </ul>
       <% end %>
     </ul>
+    <div class="controls-container">
+      <%= link_to "Proceed to Checkout", checkout_path, :"data-turbolinks"=>false, class: "btn" %>
+      <%= link_to "Clear Cart", clear_cart_path, method: :post, class: "btn" %>
+    </div>
   </div>
 </div>
