@@ -29,7 +29,7 @@ ul {
 .home-container {
   background-color: lightskyblue;
   padding: 20px;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 200px);
 }
 
 .flights-grid {

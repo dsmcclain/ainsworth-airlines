@@ -20,10 +20,18 @@ class HomeController < ApplicationController
 
   def purchase
     pm_token = params[:payment_method_token]
-    amount = (params[:amount] * 100).to_i
+    amount = (params[:amount].to_f * 100).to_i
     response = Cashier.new(pm_token, amount).call
 
-    puts response
+    if response.errors?
+      puts response.errors
+      render :file => "#{Rails.root}/public/500.html",  status: 500
+    elsif response[:subject]['transaction']['succeeded']
+      redirect_to bookings_show_path(params[:amount])
+    else
+      flash[:alert] = response[:subject]['transaction']['message']
+      redirect_to bookings_failure_path
+    end
   end
 
   private

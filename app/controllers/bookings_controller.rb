@@ -7,4 +7,8 @@ class BookingsController < ApplicationController
   def show
     @amount = params[:amount]
   end
+
+  def failure
+    @message = flash[:alert]
+  end
 end

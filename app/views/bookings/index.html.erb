@@ -1,4 +1,4 @@
-<%=
+<%
   total_cost = @flights.map {|f| f['cost'].to_f}.sum if @flights.present?
 %>
 
@@ -25,22 +25,18 @@
     });
   </script>
 </head>
-<div class="header">
-  <h1 class="page-title">Welcome to Ainsworth Airlines!</h1>
-</div>
-<div class="home-container">
-  <% if @flights.present? %>
-    <h2>You have chosen the following flights</h2>
-    <% @flights.each do |flight| %>
-      <p>From <%= flight['departure'] %> to <%= flight['destination'] %> at a cost of $<%=flight['cost'] %></p>
-    <% end %>
-    <h2>Your total cost is <%= total_cost %>
-    <form id="express-form">
-      <input type="hidden" name="payment_method_token" id="payment_method_token">
-      <input type="button" class="btn" value="Checkout" onclick="SpreedlyExpress.openView();">
-      <%= link_to "Cancel", home_index_path, :"data-turbolinks"=>false, class: "btn"%>
-    </form>
-  <% else %>
-    <p>Your cart is empty. Return to the <%= link_to "flights", home_index_path, :"data-turbolinks"=>false %> page to book a flight!</p>
+
+<% if @flights.present? %>
+  <h2>You have chosen the following flights</h2>
+  <% @flights.each do |flight| %>
+    <p>From <%= flight['departure'] %> to <%= flight['destination'] %> at a cost of $<%=flight['cost'] %></p>
   <% end %>
-</div>
+  <h2>Your total cost is <%= total_cost %>
+  <form id="express-form">
+    <input type="hidden" name="payment_method_token" id="payment_method_token">
+    <input type="button" class="btn" value="Checkout" onclick="SpreedlyExpress.openView();">
+    <%= link_to "Cancel", home_index_path, :"data-turbolinks"=>false, class: "btn"%>
+  </form>
+<% else %>
+  <p>Your cart is empty. Return to the <%= link_to "flights", home_index_path, :"data-turbolinks"=>false %> page to book a flight!</p>
+<% end %>

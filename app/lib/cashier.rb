@@ -5,6 +5,7 @@ class Cashier
   def initialize(token, amount)
     @token = token
     @amount = amount
+    @errors = []
   end
 
   def call
@@ -27,6 +28,19 @@ class Cashier
     )
     
     response = https.request(request)
-    response.read_body
+    parsed_response = JSON.parse(response.body)
+    @errors = parsed_response['errors'].map { |e| e['message'] } if parsed_response['errors']
+
+    Response.new(parsed_response, @errors)
+  end
+
+  Response = Struct.new(:subject, :errors) do
+    def success?
+      errors.nil? || errors.empty?
+    end
+
+    def errors?
+      errors.present?
+    end
   end
 end
