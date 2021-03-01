@@ -1,0 +1,13 @@
+<% if @message.nil? %>
+  <h2>You have sucessfully saved the following card for future use:</h2>
+  <ul>
+    <li><strong>Name:</strong> <%= @name %></li>
+    <li><strong>Last 4 digits:</strong> <%= @digits %></li>
+  </ul>
+<% else %>
+  <h2>Something went wrong when attempting to save this card:</h2>
+  <p><%= @message %></p>
+<% end %>
+
+<%= link_to "Show all of my saved payment methods", payment_methods_index_path %>
+<%= link_to "Return Home", home_index_path, :"data-turbolinks"=>false %>

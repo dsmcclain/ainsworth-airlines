@@ -7,10 +7,10 @@ class Cashier
     'expedia' => 'NFTvfvUxrK862Sujkv7PZedvdWO'
   }
 
-  def initialize(token, amount, receiver)
+  def initialize(token, options={})
     @card_token = token
-    @amount = amount
-    @receiver = receiver
+    @amount = options[:amount]
+    @receiver = options[:receiver]
     @errors = []
   end
 
@@ -25,14 +25,46 @@ class Cashier
     request.basic_auth "#{ENV["SPREEDLY_ENVIRONMENT_KEY"]}", "#{ENV["SPREEDLY_ACCESS_SECRET"]}"
     request.body = JSON.generate(build_body)
     
-    response = https.request(request)
-    parsed_response = JSON.parse(response.body)
-    @errors = parsed_response['errors'].map { |e| e['message'] } if parsed_response['errors']
+    format_response(https.request(request))
+  end
 
-    Response.new(parsed_response, @errors)
+  def retain
+    url = URI("https://core.spreedly.com/v1/payment_methods/#{@card_token}/retain.json")
+
+    https = Net::HTTP.new(url.host, url.port)
+    https.use_ssl = true
+
+    request = Net::HTTP::Put.new(url)
+    request["Content-Type"] = "application/json"
+    request.basic_auth "#{ENV["SPREEDLY_ENVIRONMENT_KEY"]}", "#{ENV["SPREEDLY_ACCESS_SECRET"]}"
+
+    format_response(https.request(request))
+  end
+
+  def list_payment_methods
+    url = URI("https://core.spreedly.com/v1/payment_methods.json")
+
+    spreedly_get(url)
+  end
+
+  def list_transactions
+    url = URI("https://core.spreedly.com/v1/transactions.json")
+
+    spreedly_get(url)
   end
 
   private
+
+  def spreedly_get(url)
+    https = Net::HTTP.new(url.host, url.port)
+    https.use_ssl = true
+
+    request = Net::HTTP::Get.new(url)
+    request["Content-Type"] = "application/json"
+    request.basic_auth "#{ENV["SPREEDLY_ENVIRONMENT_KEY"]}", "#{ENV["SPREEDLY_ACCESS_SECRET"]}"
+    
+    format_response(https.request(request))
+  end
 
   def build_body
     case @receiver
@@ -62,6 +94,13 @@ class Cashier
     type, endpoint = @receiver == 'none' ? ['gateways', 'purchase'] : ['receivers', 'deliver']
 
     URI("https://core.spreedly.com/v1/#{type}/#{env_token}/#{endpoint}.json")
+  end
+
+  def format_response(response)
+    parsed_response = JSON.parse(response.body)
+    @errors = parsed_response['errors'].map { |e| e['message'] } if parsed_response['errors']
+
+    Response.new(parsed_response, @errors)
   end
 
   Response = Struct.new(:subject, :errors) do

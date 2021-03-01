@@ -1,3 +1,3 @@
 # README
 
-Welcome to Ainsworth Airlines!
+Welcome to Spreedly Airlines!

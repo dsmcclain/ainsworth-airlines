@@ -11,7 +11,6 @@ class HomeController < ApplicationController
   def cart
     session[:flights] ||= []
     session[:flights] << params[:flight]
-    puts session[:flights]
   end
 
   def clear_cart
@@ -21,9 +20,9 @@ class HomeController < ApplicationController
   def order
     pm_token = params[:payment_method_token]
     amount = (params[:amount].to_f * 100).to_i
-    response = Cashier.new(pm_token, amount, params['receiver']).call
+    response = Cashier.new(pm_token, { amount: amount, receiver: params['receiver'] }).call
     response_body = response[:subject]['transaction']
-    puts response
+    puts response[:subject]
 
     if response.errors?
       puts response.errors

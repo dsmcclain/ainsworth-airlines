@@ -1,24 +1,5 @@
 <head>
   <script src="https://core.spreedly.com/iframe/express-2.min.js"></script>
-  <script type="text/javascript">
-
-    function callSpreedly(cost) {
-      SpreedlyExpress.init('3C7NRMKIvw2hUvkgic6P5AP0UsH', {
-        "amount": cost,
-        "company_name": "Ainsworth Airlines"
-      });
-      SpreedlyExpress.openView();
-    }
-
-    SpreedlyExpress.onPaymentMethod(function(token, paymentMethod) {
-      var tokenField = document.getElementById("payment_method_token");
-
-      tokenField.setAttribute("value", token);
-
-      var masterForm = document.getElementById('express-form');
-      masterForm.submit();
-    });
-  </script>
 </head>
 
 <div class="flights-grid-container">
@@ -54,5 +35,26 @@
   <div class="controls-container">
     <%= link_to "Proceed to Checkout", checkout_path, :"data-turbolinks"=>false, class: "btn" %>
     <%= link_to "Clear Cart", clear_cart_path, method: :post, class: "btn" %>
+    <%= link_to "Show All Transactions", bookings_index_path, class: "btn" %>
   </div>
 </div>
+
+<script type="text/javascript">
+
+function callSpreedly(cost) {
+  SpreedlyExpress.init('3C7NRMKIvw2hUvkgic6P5AP0UsH', {
+    "amount": cost,
+    "company_name": "Spreedly Airlines"
+  });
+  SpreedlyExpress.openView();
+}
+
+SpreedlyExpress.onPaymentMethod(function(token, paymentMethod) {
+  var tokenField = document.getElementById("payment_method_token");
+
+  tokenField.setAttribute("value", token);
+
+  var masterForm = document.getElementById('express-form');
+  masterForm.submit();
+});
+</script>
