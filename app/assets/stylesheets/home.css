@@ -64,7 +64,7 @@ ul {
   display: grid;
   justify-items: center;
   align-items: center;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 8fr 8fr 8fr 7fr 1fr;
 }
 
 .button-container {
@@ -96,6 +96,10 @@ ul {
 
 .btn.highlight:hover {
   background: lightskyblue;
+}
+
+.expedia-logo {
+  max-width: 30px;
 }
 
 .controls-container {

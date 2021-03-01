@@ -21,7 +21,6 @@
   </script>
 </head>
 
-<p>You will love travelling with us.</p>
 <div class="flights-grid-container">
   <ul class="flights-grid">
     <li class="grid-title">Available Flights</li>
@@ -31,19 +30,24 @@
       <li>Cost</li>
     </ul>
     <% @flights.each do |flight| %>
+      <% receiver = rand(2) == 1 ? 'expedia' : 'none' %>
       <ul class="flight">
         <li><%= flight[:departure] %></li>
         <li><%= flight[:destination] %></li>
         <li><%= flight[:cost] %></li>
         <li class="button-container">
-          <form action="/purchase" method="post" id="express-form">
+          <form action="/order" method="post" id="express-form">
             <input type="hidden" name="authenticity_token" value="form_authenticity_token">
             <input type="hidden" name="payment_method_token" id="payment_method_token">
             <input type="hidden" name="amount" value="<%= flight[:cost] %>">
+            <input type="hidden" name="receiver" value="<%= receiver %>">
             <input type="button" class="btn highlight" value="Book Now!" onclick="callSpreedly(<%= flight[:cost] %>)">
           </form>
           <%= link_to "Add to Cart", cart_path(flight: flight), method: :post, class: "btn" %>
         </li>
+        <% if receiver == 'expedia' %>
+          <%= image_tag "expedia_logo.png", class: "expedia-logo" %>
+        <% end %>
       </ul>
     <% end %>
   </ul>

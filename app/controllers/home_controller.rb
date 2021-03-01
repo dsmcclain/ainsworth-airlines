@@ -18,18 +18,21 @@ class HomeController < ApplicationController
     session[:flights] = []
   end
 
-  def purchase
+  def order
     pm_token = params[:payment_method_token]
     amount = (params[:amount].to_f * 100).to_i
-    response = Cashier.new(pm_token, amount).call
+    response = Cashier.new(pm_token, amount, params['receiver']).call
+    response_body = response[:subject]['transaction']
+    puts response
 
     if response.errors?
       puts response.errors
       render :file => "#{Rails.root}/public/500.html",  status: 500
-    elsif response[:subject]['transaction']['succeeded']
+    elsif response_body['succeeded']
+      session[:pm_token] = response_body['payment_method']['token']
       redirect_to bookings_show_path(params[:amount])
     else
-      flash[:alert] = response[:subject]['transaction']['message']
+      flash[:alert] = response_body['message']
       redirect_to bookings_failure_path
     end
   end
