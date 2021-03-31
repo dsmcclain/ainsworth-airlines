@@ -1,3 +1,4 @@
 <h2>Success!</h2>
-<p>You booked a flight for $<%= @amount %></p>
+<h2>You booked a flight for $<%= @amount %></h2>
 <p><%= link_to "Save my payment method", save_payment_method_path, method: :post %> for future use.</p>
+<%= link_to "Return Home", home_index_path, :"data-turbolinks"=>false %>

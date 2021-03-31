@@ -106,3 +106,17 @@ ul {
   display: flex;
   justify-content: center;
 }
+
+/* IFRAME STYLES */
+
+.iframe {
+  display: flex;
+  flex-direction: column;
+  max-width: 20vw;
+  border: 1px solid black;
+  padding: 5px;
+}
+
+.iframe > .btn {
+  max-width: 100px;
+}
